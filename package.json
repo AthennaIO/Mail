@@ -1,12 +1,12 @@
 {
-  "name": "@athenna/template",
+  "name": "@athenna/mail",
   "version": "1.0.0",
-  "description": "Template for new projects.",
+  "description": "Mail for new projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
-  "bugs": "https://github.com/AthennaIO/Template/issues",
-  "repository": "https://github.com/AthennaIO/Template.git",
-  "homepage": "https://github.com/AthennaIO/Template#readme",
+  "bugs": "https://github.com/AthennaIO/Mail/issues",
+  "repository": "https://github.com/AthennaIO/Mail.git",
+  "homepage": "https://github.com/AthennaIO/Mail#readme",
   "keywords": [
     "esm",
     "athenna"
