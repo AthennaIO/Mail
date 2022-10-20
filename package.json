@@ -1,7 +1,7 @@
 {
   "name": "@athenna/mail",
   "version": "1.0.0",
-  "description": "Mail for new projects.",
+  "description": "The Athenna email handler.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
   "bugs": "https://github.com/AthennaIO/Mail/issues",
