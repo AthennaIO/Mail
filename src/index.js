@@ -10,7 +10,10 @@
 import { Config } from '@athenna/config'
 import { DriverFactory } from '#src/Factories/DriverFactory'
 
-export class Mail {
+export * from './Facades/Mail.js'
+export * from './Factories/DriverFactory.js'
+
+export class MailImpl {
   /**
    * The mailer name used for this instance.
    *
@@ -35,7 +38,7 @@ export class Mail {
   /**
    * Creates a new instance of Mail.
    *
-   * @return {Mail}
+   * @return {MailImpl}
    */
   constructor() {
     this.#driver = DriverFactory.fabricate(this.#mailer, this.#runtimeConfig)
@@ -45,7 +48,7 @@ export class Mail {
    * Set runtime configuration for driver.
    *
    * @param {any} runtimeConfig
-   * @return {Mail}
+   * @return {MailImpl}
    */
   config(runtimeConfig = {}) {
     this.#runtimeConfig = runtimeConfig
@@ -57,7 +60,7 @@ export class Mail {
    * Change the mail mailer.
    *
    * @param {string} mailer
-   * @return {Mail}
+   * @return {MailImpl}
    */
   mailer(mailer) {
     this.#runtimeConfig = {}
@@ -70,7 +73,7 @@ export class Mail {
   /**
    * Send a new mail message.
    *
-   * @return {Promise<void>}
+   * @return {Promise<any>}
    */
   async send() {
     return this.#driver.send()
@@ -80,7 +83,7 @@ export class Mail {
    * Define mail sender.
    *
    * @param {string} from
-   * @return {Mail}
+   * @return {MailImpl}
    */
   from(from) {
     this.#driver.from(from)
@@ -92,7 +95,7 @@ export class Mail {
    * Define mail receiver.
    *
    * @param {string} to
-   * @return {Mail}
+   * @return {MailImpl}
    */
   to(...to) {
     this.#driver.to(...to)
@@ -104,7 +107,7 @@ export class Mail {
    * Define mail subject.
    *
    * @param {string} subject
-   * @return {Mail}
+   * @return {MailImpl}
    */
   subject(subject) {
     this.#driver.subject(subject)
@@ -116,7 +119,7 @@ export class Mail {
    * Define mail cc.
    *
    * @param {string} cc
-   * @return {Mail}
+   * @return {MailImpl}
    */
   cc(...cc) {
     this.#driver.cc(...cc)
@@ -128,7 +131,7 @@ export class Mail {
    * Define mail bcc.
    *
    * @param {string} bcc
-   * @return {Mail}
+   * @return {MailImpl}
    */
   bcc(...bcc) {
     this.#driver.bcc(...bcc)
@@ -140,7 +143,7 @@ export class Mail {
    * Define mail reply to.
    *
    * @param {string} replyTo
-   * @return {Mail}
+   * @return {MailImpl}
    */
   replyTo(replyTo) {
     this.#driver.replyTo(replyTo)
@@ -152,7 +155,7 @@ export class Mail {
    * Define mail in reply to.
    *
    * @param {string} inReplyTo
-   * @return {Mail}
+   * @return {MailImpl}
    */
   inReplyTo(inReplyTo) {
     this.#driver.inReplyTo(inReplyTo)
@@ -164,7 +167,7 @@ export class Mail {
    * Define mail references.
    *
    * @param {string} references
-   * @return {Mail}
+   * @return {MailImpl}
    */
   references(references) {
     this.#driver.references(references)
@@ -175,8 +178,8 @@ export class Mail {
   /**
    * Define mail envelope.
    *
-   * @param {string} envelope
-   * @return {Mail}
+   * @param {{ from?: string, to?: string, cc?: string, bcc?: string }} envelope
+   * @return {MailImpl}
    */
   envelope(envelope) {
     this.#driver.envelope(envelope)
@@ -188,10 +191,12 @@ export class Mail {
    * Define mail attachment.
    *
    * @param {string} path
-   * @return {Mail}
+   * @param {any} content
+   * @param {string} encoding
+   * @return {MailImpl}
    */
-  attachment(path) {
-    this.#driver.attachment(path)
+  attachment(path, content, encoding) {
+    this.#driver.attachment(path, content, encoding)
 
     return this
   }
@@ -200,7 +205,7 @@ export class Mail {
    * Define mail attachments.
    *
    * @param {string} folderPath
-   * @return {Mail}
+   * @return {MailImpl}
    */
   attachments(folderPath) {
     this.#driver.attachments(folderPath)
@@ -212,7 +217,7 @@ export class Mail {
    * Define mail plain text.
    *
    * @param {string} text
-   * @return {Mail}
+   * @return {MailImpl}
    */
   text(text) {
     this.#driver.text(text)
@@ -224,7 +229,7 @@ export class Mail {
    * Define mail html.
    *
    * @param {string} html
-   * @return {Mail}
+   * @return {MailImpl}
    */
   html(html) {
     this.#driver.html(html)
@@ -236,7 +241,7 @@ export class Mail {
    * Define mail markdown.
    *
    * @param {string} markdown
-   * @return {Mail}
+   * @return {MailImpl}
    */
   markdown(markdown) {
     this.#driver.markdown(markdown)
@@ -247,12 +252,13 @@ export class Mail {
   /**
    * Define mail view.
    *
-   * @param {string} viewName
+   * @param {string} name
    * @param {any} [data]
-   * @return {Mail}
+   * @param {'markdown' | 'html' | 'text'} [renderType]
+   * @return {MailImpl}
    */
-  view(viewName, data) {
-    this.#driver.view(viewName, data)
+  view(name, data, renderType) {
+    this.#driver.view(name, data, renderType)
 
     return this
   }

@@ -8,9 +8,12 @@
  */
 
 import { Config } from '@athenna/config'
+import { MailView } from '#src/Views/MailView'
 import { SmtpDriver } from '#src/Drivers/SmtpDriver'
-import { NotImplementedConfigException } from '#src/Exceptions/NotImplementedConfigException'
 import { NotFoundDriverException } from '#src/Exceptions/NotFoundDriverException'
+import { NotImplementedConfigException } from '#src/Exceptions/NotImplementedConfigException'
+
+MailView.load()
 
 export class DriverFactory {
   /**

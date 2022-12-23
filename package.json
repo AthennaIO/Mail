@@ -35,7 +35,8 @@
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./providers/MailProvider": "./src/Providers/MailProvider.js"
   },
   "imports": {
     "#src/*": "./src/*.js",
@@ -46,13 +47,15 @@
     "@athenna/config": "1.1.9",
     "@athenna/ioc": "1.2.8",
     "edge.js": "5.5.0",
-    "nodemailer": "6.8.0"
+    "nodemailer": "6.8.0",
+    "nodemailer-markdown": "1.0.2"
   },
   "devDependencies": {
     "@japa/assert": "1.3.4",
     "@japa/run-failed-tests": "1.0.7",
     "@japa/runner": "2.0.7",
     "@japa/spec-reporter": "1.1.12",
+    "@types/nodemailer": "6.4.7",
     "c8": "7.11.2",
     "commitizen": "4.2.5",
     "cross-env": "7.0.3",
@@ -121,6 +124,10 @@
     ]
   },
   "eslintConfig": {
+    "globals": {
+      "Env": true,
+      "Config": true
+    },
     "env": {
       "es2021": true,
       "node": true
