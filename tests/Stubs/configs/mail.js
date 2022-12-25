@@ -10,5 +10,8 @@ export default {
         rejectUnauthorized: false,
       },
     },
+    nullDriver: {
+      driver: 'not-found',
+    },
   },
 }

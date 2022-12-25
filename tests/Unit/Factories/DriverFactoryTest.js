@@ -7,21 +7,18 @@
  * file that was distributed with this source code.
  */
 
-import { Mail } from '#src/index'
 import { test } from '@japa/runner'
 import { Config } from '@athenna/config'
 import { Folder, Path } from '@athenna/common'
-import { MailProvider } from '#src/Providers/MailProvider'
+import { DriverFactory } from '#src/Factories/DriverFactory'
+import { NotFoundDriverException } from '#src/Exceptions/NotFoundDriverException'
+import { NotImplementedConfigException } from '#src/Exceptions/NotImplementedConfigException'
 
-test.group('SmtpDriverTest', group => {
+test.group('DriverFactoryTest', group => {
   group.setup(async () => {
     await new Folder(Path.stubs('views')).copy(Path.views())
     await new Folder(Path.stubs('configs')).copy(Path.config())
     await Config.safeLoad(Path.config('mail.js'))
-  })
-
-  group.each.setup(async () => {
-    new MailProvider().register()
   })
 
   group.teardown(async () => {
@@ -29,115 +26,17 @@ test.group('SmtpDriverTest', group => {
     await Folder.safeRemove(Path.config())
   })
 
-  test('should be able to send emails as text', async ({ assert }) => {
-    const result = await Mail.mailer('default')
-      .from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .cc('txsoura@athenna.io')
-      .references('Hello')
-      .replyTo('txsoura@athenna.io')
-      .inReplyTo('lenon@athenna.io')
-      .bcc('lenonsec7@gmail.com', 'lenonsec7@hotmail.com')
-      .subject('Hello from Athenna!')
-      .text('Hello from Athenna')
-      .envelope({ from: 'no-reply@athenna.io', to: 'lenon@athenna.io' })
-      .send()
+  test('should be able to get the available drivers of DriverFactory', async ({ assert }) => {
+    const drivers = DriverFactory.availableDrivers()
 
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, {
-      from: 'no-reply@athenna.io',
-      to: ['lenon@athenna.io'],
-    })
+    assert.deepEqual(drivers, ['smtp'])
   })
 
-  test('should be able to send emails as html', async ({ assert }) => {
-    const result = await Mail.from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .subject('Hello from Athenna!')
-      .html('<h1>Hello from Athenna</h2>')
-      .send()
-
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
+  test('should throw a not implemented config exception', async ({ assert }) => {
+    assert.throws(() => DriverFactory.fabricate('notImplemented'), NotImplementedConfigException)
   })
 
-  test('should be able to send emails as markdown', async ({ assert }) => {
-    const result = await Mail.from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .subject('Hello from Athenna!')
-      .markdown('# Hello from Athenna!')
-      .send()
-
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
-
-  test('should be able to set up text views and send it', async ({ assert }) => {
-    const result = await Mail.from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .subject('Hello from Athenna!')
-      .view('others/hello', { name: 'Athenna' })
-      .send()
-
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
-
-  test('should be able to set up html views and send it', async ({ assert }) => {
-    const result = await Mail.from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .subject('Hello from Athenna!')
-      .view('others/nice')
-      .send()
-
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
-
-  test('should be able to set up markdown views and send it', async ({ assert }) => {
-    const result = await Mail.from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .subject('Hello from Athenna!')
-      .view('hello', { name: 'João' })
-      .send()
-
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
-
-  test('should be able to send files as attachments in emails', async ({ assert }) => {
-    const result = await Mail.from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .subject('Email attachment')
-      .attachment(Path.stubs('views/mail/hello.edge'))
-      .text('Sending the e-mail attachment')
-      .send()
-
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
-
-  test('should be able to create and send contents as attachments in emails', async ({ assert }) => {
-    const result = await Mail.from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .subject('Email attachment')
-      .attachment('hello.js', 'console.log("hello world!")', 'utf-8')
-      .text('Sending the e-mail attachment')
-      .send()
-
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
-
-  test('should be able to send multiple attachments in emails', async ({ assert }) => {
-    const result = await Mail.from('no-reply@athenna.io')
-      .to('lenon@athenna.io')
-      .subject('Email attachments')
-      .attachments(Path.stubs('views/mail'))
-      .text('Sending the e-mail attachments')
-      .send()
-
-    assert.deepEqual(result.response, '250 Ok')
-    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
+  test('should throw a not found driver exception', async ({ assert }) => {
+    assert.throws(() => DriverFactory.fabricate('nullDriver'), NotFoundDriverException)
   })
 })
