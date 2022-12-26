@@ -11,6 +11,12 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
+    services:
+      fake-smtp:
+        image: kurzdigital/fake-smtp
+        ports:
+          - "5025:5025"
+          - "5080:5080"
     strategy:
       matrix:
         node-version:
