@@ -140,4 +140,18 @@ test.group('SmtpDriverTest', group => {
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   })
+
+  test('should be able to change configuration in runtime', async ({ assert }) => {
+    const result = await Mail.config({ port: 5080 })
+      .mailer('smtp')
+      .from('no-reply@athenna.io')
+      .to('lenon@athenna.io')
+      .subject('Email attachments')
+      .attachments(Path.stubs('views/mail'))
+      .text('Sending the e-mail attachments')
+      .send()
+
+    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
+  })
 })
