@@ -10,6 +10,6 @@
 import { Facade } from '@athenna/ioc'
 
 /**
- * @type {Facade & import('../index.js').Mail}
+ * @type {typeof Facade & import('../index.js').Mail}
  */
 export const Mail = Facade.createFor('Athenna/Core/Mail')
