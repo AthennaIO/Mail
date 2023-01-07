@@ -1,6 +1,6 @@
 import { Facade } from '@athenna/ioc'
 
-export const Mail: Facade & MailImpl
+export const Mail: typeof Facade & MailImpl
 
 export class MailImpl {
   /**
