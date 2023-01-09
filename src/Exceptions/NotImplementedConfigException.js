@@ -8,7 +8,7 @@
  */
 
 import { Config } from '@athenna/config'
-import { Exception } from '@athenna/common'
+import { Exception, Path } from '@athenna/common'
 
 export class NotImplementedConfigException extends Exception {
   /**
@@ -32,7 +32,7 @@ export class NotImplementedConfigException extends Exception {
       help += `The "Config.get('mail.mailers') is empty, maybe your configuration files are not loaded?`
     }
 
-    help += ` Create your configuration inside mailers object to use it. Or load your configuration files using "Config.safeLoad(Path.config('mail.js'))`
+    help += ` Create your configuration inside mailers object to use it. Or load your configuration files using "Config.safeLoad(Path.config('mail.${Path.ext()}'))`
 
     super(content, 500, 'E_NOT_IMPLEMENTED_CONFIG_ERROR', help)
   }
