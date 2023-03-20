@@ -7,29 +7,13 @@
  * file that was distributed with this source code.
  */
 
-import { Mail } from '#src/index'
-import { test } from '@japa/runner'
-import { Config } from '@athenna/config'
-import { Folder, Path } from '@athenna/common'
-import { MailProvider } from '#src/Providers/MailProvider'
+import { Mail } from '#src'
+import { Test, TestContext } from '@athenna/test'
+import { BaseTest } from '#tests/Helpers/BaseTest'
 
-test.group('SmtpDriverTest', group => {
-  group.setup(async () => {
-    await new Folder(Path.stubs('views')).copy(Path.views())
-    await new Folder(Path.stubs('configs')).copy(Path.config())
-    await Config.safeLoad(Path.config('mail.js'))
-  })
-
-  group.each.setup(async () => {
-    new MailProvider().register()
-  })
-
-  group.teardown(async () => {
-    await Folder.safeRemove(Path.views())
-    await Folder.safeRemove(Path.config())
-  })
-
-  test('should be able to send emails as text', async ({ assert }) => {
+export default class SmtpDriverTest extends BaseTest {
+  @Test()
+  public async shouldBeAbleToSendEmailsAsText({ assert }: TestContext) {
     const result = await Mail.mailer('default')
       .from('no-reply@athenna.io')
       .to('lenon@athenna.io')
@@ -48,9 +32,10 @@ test.group('SmtpDriverTest', group => {
       from: 'no-reply@athenna.io',
       to: ['lenon@athenna.io'],
     })
-  })
+  }
 
-  test('should be able to send emails as html', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToSendEmailsAsHtml({ assert }: TestContext) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
@@ -59,9 +44,10 @@ test.group('SmtpDriverTest', group => {
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
+  }
 
-  test('should be able to send emails as markdown', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToSendEmailsAsMarkdown({ assert }: TestContext) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
@@ -70,54 +56,59 @@ test.group('SmtpDriverTest', group => {
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
+  }
 
-  test('should be able to set up text views and send it', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToSetUpPlainTextViewsAndSendIt({ assert }: TestContext) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
-      .view('others/hello', { name: 'Athenna' })
+      .view('mail::plain', { name: 'Athenna' })
       .send()
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
+  }
 
-  test('should be able to set up html views and send it', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToSetUpHtmlViewsAndSendIt({ assert }: TestContext) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
-      .view('others/nice')
+      .view('mail::html', { name: 'Athenna' })
       .send()
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
+  }
 
-  test('should be able to set up markdown views and send it', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToSetUpMarkdownViewsAndSendIt({ assert }: TestContext) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
-      .view('hello', { name: 'João' })
+      .view('mail::markdown', { name: 'Athenna' })
       .send()
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
+  }
 
-  test('should be able to send files as attachments in emails', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToSendFilesAsAttachmentsInEmails({ assert }: TestContext) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachment')
-      .attachment(Path.stubs('views/mail/hello.edge'))
+      .attachment(Path.stubs('attachments/file.txt'))
       .text('Sending the e-mail attachment')
       .send()
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
+  }
 
-  test('should be able to create and send contents as attachments in emails', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToCreateAndSendContentsAsAttachmentsInEmails({ assert }: TestContext) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachment')
@@ -127,31 +118,33 @@ test.group('SmtpDriverTest', group => {
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
+  }
 
-  test('should be able to send multiple attachments in emails', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToSendMultipleAttachmentsInEmails({ assert }: TestContext) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachments')
-      .attachments(Path.stubs('views/mail'))
+      .attachments(Path.stubs('attachments'))
       .text('Sending the e-mail attachments')
       .send()
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
+  }
 
-  test('should be able to change configuration in runtime', async ({ assert }) => {
+  @Test()
+  public async shouldBeAbleToChangeConfigurationInRuntime({ assert }: TestContext) {
     const result = await Mail.config({ port: 5080 })
       .mailer('smtp')
       .from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachments')
-      .attachments(Path.stubs('views/mail'))
+      .attachments(Path.stubs('attachments'))
       .text('Sending the e-mail attachments')
       .send()
 
     assert.deepEqual(result.response, '250 Ok')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
-  })
-})
+  }
+}

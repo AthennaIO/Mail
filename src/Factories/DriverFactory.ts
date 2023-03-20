@@ -8,52 +8,40 @@
  */
 
 import { Config } from '@athenna/config'
-import { MailView } from '#src/Views/MailView'
 import { SmtpDriver } from '#src/Drivers/SmtpDriver'
 import { NotFoundDriverException } from '#src/Exceptions/NotFoundDriverException'
 import { NotImplementedConfigException } from '#src/Exceptions/NotImplementedConfigException'
 
-MailView.load()
-
 export class DriverFactory {
   /**
    * Driver of driver factory.
-   *
-   * @type {Map<string, { Driver: any }>}
    */
-  static #drivers = new Map().set('smtp', { Driver: SmtpDriver })
+  public static drivers: Map<string, { Driver: any }> = new Map().set('smtp', {
+    Driver: SmtpDriver,
+  })
 
   /**
    * Return an array of all available drivers.
-   *
-   * @return {string[]}
    */
-  static availableDrivers() {
-    return [...this.#drivers.keys()]
+  public static availableDrivers(): string[] {
+    return [...this.drivers.keys()]
   }
 
   /**
    * Fabricate a new instance of a driver based in mailer configurations.
-   *
-   * @param {string} mailerName
-   * @param {any} runtimeConfig
-   * @return {any}
    */
-  static fabricate(mailerName, runtimeConfig = {}) {
-    const mailerConfig = this.#getMailerConfig(mailerName)
+  public static fabricate(mailerName: string, runtimeConfig: any = {}): any {
+    const mailerConfig = this.getMailerConfig(mailerName)
 
-    const { Driver } = this.#drivers.get(mailerConfig.driver)
+    const { Driver } = this.drivers.get(mailerConfig.driver)
 
     return new Driver({ ...mailerConfig, ...runtimeConfig })
   }
 
   /**
    * Get all mailer configuration.
-   *
-   * @param {string} mailerName
-   * @return {any}
    */
-  static #getMailerConfig(mailerName) {
+  private static getMailerConfig(mailerName: string): any {
     if (mailerName === 'default') {
       mailerName = Config.get('mail.default')
     }
@@ -64,7 +52,7 @@ export class DriverFactory {
       throw new NotImplementedConfigException(mailerName)
     }
 
-    if (!this.#drivers.has(mailerConfig.driver)) {
+    if (!this.drivers.has(mailerConfig.driver)) {
       throw new NotFoundDriverException(mailerConfig.driver)
     }
 

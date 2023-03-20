@@ -1,8 +1,9 @@
-version: '2.1'
-
+version: '3.1'
 services:
   smtp:
+    container_name: athenna_smtp
     image: kurzdigital/fake-smtp
     ports:
-      - "5025:5025"
-      - "5080:5080"
+      - '5025:5025'
+      - '5080:5080'
+
