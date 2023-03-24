@@ -172,8 +172,7 @@ export class SmtpDriver {
    * Define mail attachments.
    */
   public attachments(folderPath: string): SmtpDriver {
-    const folder = new Folder(folderPath).loadSync()
-    const files = folder.getFilesByPattern('*/**/*', true)
+    const files = new Folder(folderPath).getFilesByPattern('*/**/*')
 
     files.forEach(file => this.attachment(file.path))
 
