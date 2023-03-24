@@ -27,7 +27,7 @@ export default class SmtpDriverTest extends BaseTest {
       .envelope({ from: 'no-reply@athenna.io', to: 'lenon@athenna.io' })
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, {
       from: 'no-reply@athenna.io',
       to: ['lenon@athenna.io'],
@@ -42,7 +42,7 @@ export default class SmtpDriverTest extends BaseTest {
       .html('<h1>Hello from Athenna</h2>')
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 
@@ -54,7 +54,7 @@ export default class SmtpDriverTest extends BaseTest {
       .markdown('# Hello from Athenna!')
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 
@@ -66,7 +66,7 @@ export default class SmtpDriverTest extends BaseTest {
       .view('mail::plain', { name: 'Athenna' })
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 
@@ -78,7 +78,7 @@ export default class SmtpDriverTest extends BaseTest {
       .view('mail::html', { name: 'Athenna' })
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 
@@ -90,7 +90,7 @@ export default class SmtpDriverTest extends BaseTest {
       .view('mail::markdown', { name: 'Athenna' })
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 
@@ -103,7 +103,7 @@ export default class SmtpDriverTest extends BaseTest {
       .text('Sending the e-mail attachment')
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 
@@ -116,7 +116,7 @@ export default class SmtpDriverTest extends BaseTest {
       .text('Sending the e-mail attachment')
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 
@@ -129,7 +129,7 @@ export default class SmtpDriverTest extends BaseTest {
       .text('Sending the e-mail attachments')
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 
@@ -144,7 +144,7 @@ export default class SmtpDriverTest extends BaseTest {
       .text('Sending the e-mail attachments')
       .send()
 
-    assert.deepEqual(result.response, '250 Ok')
+    assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
 }

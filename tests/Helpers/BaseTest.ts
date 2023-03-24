@@ -13,6 +13,7 @@ import { LoggerProvider } from '@athenna/logger'
 import { MailProvider, SmtpServerProvider } from '#src'
 import { BeforeEach, AfterEach, ExitFaker } from '@athenna/test'
 import { ArtisanProvider, CommanderHandler, COMMANDS_SETTINGS, ConsoleKernel } from '@athenna/artisan'
+import { SmtpServer } from '#src/Facades/SmtpServer'
 
 export class BaseTest {
   public originalPJson = new File(Path.pwd('package.json')).getContentAsStringSync()
@@ -30,6 +31,8 @@ export class BaseTest {
     await new LoggerProvider().register()
     await new ArtisanProvider().register()
     await new SmtpServerProvider().register()
+
+    await SmtpServer.create({ disabledCommands: ['AUTH'] }).listen(5025)
 
     const kernel = new ConsoleKernel()
 

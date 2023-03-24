@@ -20,10 +20,6 @@ export class SmtpServerImpl {
    */
   public isListening = false
 
-  public constructor(options?: SMTPServerOptions) {
-    this.server = new SMTPServer(options)
-  }
-
   /**
    * Create the SMTP server instance.
    */
