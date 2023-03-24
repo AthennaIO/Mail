@@ -1,5 +1,11 @@
 {
   "extends": "../tsconfig.json",
   "include": ["../**/*"],
-  "exclude": ["../bin", "../build", "../tests", "../scripts", "../node_modules"]
+  "exclude": [
+    "../bin",
+    "../tests",
+    "../scripts",
+    "../node_modules",
+    "../configurer/config"
+  ]
 }

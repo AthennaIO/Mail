@@ -9,14 +9,24 @@
 
 import yaml from 'js-yaml'
 
+import { sep } from 'node:path'
 import { File } from '@athenna/common'
 import { BaseConfigurer } from '@athenna/artisan'
 
 export default class MailConfigurer extends BaseConfigurer {
+  private configPath = null
+
   public async configure() {
+    const relativePath =
+      (await this.prompt.input(
+        'Where do you want to save the mail config file? Press enter to set the default path to "./config"',
+      )) || './config'
+
+    this.configPath = Path.pwd(relativePath)
+
     await this.logger
       .task()
-      .add(`Create config/mail.${Path.ext()} file`, t =>
+      .add(`Create mail.${Path.ext()} config file`, t =>
         this.setTask(t, () => this.taskOne()),
       )
       .add('Update providers of .athennarc.json', t =>
@@ -38,7 +48,9 @@ export default class MailConfigurer extends BaseConfigurer {
       path = './config/mail.ts'
     }
 
-    await new File(path).copy(Path.config(`mail.${Path.ext()}`))
+    await new File(path).copy(
+      this.configPath.concat(`${sep}mail.${Path.ext()}`),
+    )
   }
 
   private async taskTwo() {
