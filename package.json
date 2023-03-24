@@ -192,27 +192,25 @@
     "commands": [
       "@athenna/artisan/commands/ConfigureCommand"
     ],
-    "view": {
-      "disks": {
-        "mail": "./tests/Stubs/views/mail"
-      },
-      "edge": {
-        "cache": false
-      },
-      "templates": {
-        "exception": "node_modules/@athenna/core/templates/exception.edge",
-        "facade": "node_modules/@athenna/core/templates/facade.edge",
-        "provider": "node_modules/@athenna/core/templates/provider.edge",
-        "repository": "node_modules/@athenna/core/templates/repository.edge",
-        "service": "node_modules/@athenna/core/templates/service.edge",
-        "test": "node_modules/@athenna/core/templates/test.edge",
-        "testFn": "node_modules/@athenna/core/templates/testFn.edge",
-        "command": "node_modules/@athenna/artisan/templates/command.edge",
-        "controller": "node_modules/@athenna/http/templates/controller.edge",
-        "middleware": "node_modules/@athenna/http/templates/middleware.edge",
-        "interceptor": "node_modules/@athenna/http/templates/interceptor.edge",
-        "terminator": "node_modules/@athenna/http/templates/terminator.edge"
-      }
+    "disks": {
+      "mail": "./tests/Stubs/views/mail"
+    },
+    "edge": {
+      "cache": false
+    },
+    "templates": {
+      "exception": "node_modules/@athenna/core/templates/exception.edge",
+      "facade": "node_modules/@athenna/core/templates/facade.edge",
+      "provider": "node_modules/@athenna/core/templates/provider.edge",
+      "repository": "node_modules/@athenna/core/templates/repository.edge",
+      "service": "node_modules/@athenna/core/templates/service.edge",
+      "test": "node_modules/@athenna/core/templates/test.edge",
+      "testFn": "node_modules/@athenna/core/templates/testFn.edge",
+      "command": "node_modules/@athenna/artisan/templates/command.edge",
+      "controller": "node_modules/@athenna/http/templates/controller.edge",
+      "middleware": "node_modules/@athenna/http/templates/middleware.edge",
+      "interceptor": "node_modules/@athenna/http/templates/interceptor.edge",
+      "terminator": "node_modules/@athenna/http/templates/terminator.edge"
     }
   }
 }
