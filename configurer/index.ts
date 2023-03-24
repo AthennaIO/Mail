@@ -7,8 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import yaml from 'js-yaml'
-
 import { sep } from 'node:path'
 import { File } from '@athenna/common'
 import { BaseConfigurer } from '@athenna/artisan'
@@ -35,9 +33,6 @@ export default class MailConfigurer extends BaseConfigurer {
       .add('Update .env, .env.test and .env.example', t =>
         this.setTask(t, () => this.taskThree()),
       )
-      .add('Update docker-compose.yml file', t =>
-        this.setTask(t, () => this.taskFour()),
-      )
       .run()
   }
 
@@ -56,6 +51,7 @@ export default class MailConfigurer extends BaseConfigurer {
   private async taskTwo() {
     return this.rc
       .pushTo('providers', '@athenna/mail/providers/MailProvider')
+      .pushTo('providers', '@athenna/mail/providers/SmtpServerProvider')
       .save()
   }
 
@@ -71,31 +67,6 @@ export default class MailConfigurer extends BaseConfigurer {
       .append(envs)
       .then(() => new File(Path.pwd('.env.test'), '').append(envs))
       .then(() => new File(Path.pwd('.env.example'), '').append(envs))
-  }
-
-  private async taskFour() {
-    const service = {
-      container_name: 'athenna_smtp',
-      image: 'kurzdigital/fake-smtp',
-      ports: ['5025:5025', '5080:5080'],
-    }
-
-    const baseDockerCompose = await new File(
-      './docker-compose.yml',
-    ).getContent()
-    const file = await new File(
-      Path.pwd('docker-compose.yml'),
-      baseDockerCompose,
-    ).load()
-    const dockerCompose = yaml.load(file.content)
-
-    if (!dockerCompose.services) {
-      dockerCompose.services = {}
-    }
-
-    dockerCompose.services.smtp = service
-
-    return file.setContent(yaml.dump(dockerCompose).concat('\n'))
   }
 
   private async setTask(task: any, callback: any) {

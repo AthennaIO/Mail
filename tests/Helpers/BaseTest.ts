@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
-import { MailProvider } from '#src'
 import { ViewProvider } from '@athenna/view'
 import { File, Folder } from '@athenna/common'
 import { LoggerProvider } from '@athenna/logger'
+import { MailProvider, SmtpServerProvider } from '#src'
 import { BeforeEach, AfterEach, ExitFaker } from '@athenna/test'
 import { ArtisanProvider, CommanderHandler, COMMANDS_SETTINGS, ConsoleKernel } from '@athenna/artisan'
 
@@ -29,6 +29,7 @@ export class BaseTest {
     await new ViewProvider().register()
     await new LoggerProvider().register()
     await new ArtisanProvider().register()
+    await new SmtpServerProvider().register()
 
     const kernel = new ConsoleKernel()
 
@@ -44,6 +45,7 @@ export class BaseTest {
     await new ViewProvider().shutdown()
     await new LoggerProvider().shutdown()
     await new ArtisanProvider().shutdown()
+    await new SmtpServerProvider().shutdown()
 
     Config.clear()
     ioc.reconstruct()
