@@ -11,14 +11,8 @@ import { Config } from '@athenna/config'
 import { Exception, Path } from '@athenna/common'
 
 export class NotImplementedConfigException extends Exception {
-  /**
-   * Creates a new instance of NotImplementedConfigException.
-   *
-   * @param {string} mailerName
-   * @return {NotImplementedConfigException}
-   */
-  constructor(mailerName) {
-    const content = `Mailer ${mailerName} is not configured inside mail.mailers object from config/mail file.`
+  public constructor(mailerName: string) {
+    const message = `Mailer ${mailerName} is not configured inside mail.mailers object from config/mail file.`
 
     let help = ''
 
@@ -34,6 +28,11 @@ export class NotImplementedConfigException extends Exception {
 
     help += ` Create your configuration inside mailers object to use it. Or load your configuration files using "Config.safeLoad(Path.config('mail.${Path.ext()}'))`
 
-    super(content, 500, 'E_NOT_IMPLEMENTED_CONFIG_ERROR', help)
+    super({
+      message,
+      status: 500,
+      code: 'E_NOT_IMPLEMENTED_CONFIG_ERROR',
+      help,
+    })
   }
 }
