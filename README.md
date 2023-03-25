@@ -1,6 +1,6 @@
 # Mail ✉️
 
-> The Athenna email handler
+> The Athenna email handler. Built on top of nodemailer.
 
 [![GitHub followers](https://img.shields.io/github/followers/athennaio.svg?style=social&label=Follow&maxAge=2592000)](https://github.com/athennaio?tab=followers)
 [![GitHub stars](https://img.shields.io/github/stars/AthennaIO/Mail.svg?style=social&label=Star&maxAge=2592000)](https://github.com/AthennaIO/Mail/stargazers/)

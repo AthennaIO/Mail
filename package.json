@@ -1,7 +1,7 @@
 {
   "name": "@athenna/mail",
-  "version": "3.0.3",
-  "description": "The Athenna email handler.",
+  "version": "3.2.0",
+  "description": "The Athenna email handler. Built on top of nodemailer.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
   "bugs": "https://github.com/AthennaIO/Mail/issues",
@@ -18,66 +18,90 @@
     "nodemailer"
   ],
   "scripts": {
-    "lint:fix": "eslint \"{src,tests}/**/*.js\" --fix",
-    "test": "npm run --silent lint:fix && node ./tests/index.js",
-    "test:debug": "cross-env DEBUG=api:* && npm run --silent test",
-    "test:coverage": "c8 npm run --silent test",
-    "gen:types": "tsc src/*.js --declaration --allowJs --emitDeclarationOnly --out src/index.js"
+    "lint:fix": "eslint \"{bin,src,tests}/**/*.ts\" --fix",
+    "test": "npm run --silent lint:fix && sh node bin/test.ts",
+    "test:debug": "cross-env DEBUG=api:* sh node --inspect bin/test.ts",
+    "test:coverage": "c8 npm run --silent test"
   },
   "files": [
     "src/*.js",
     "src/*.d.ts",
     "src/**/*.js",
     "src/**/*.d.ts",
-    "templates/**"
+    "configurer/*.js",
+    "configurer/*.yml",
+    "configurer/*.json",
+    "configurer/*.d.ts",
+    "configurer/**/*.js",
+    "configurer/**/*.yml",
+    "configurer/**/*.json",
+    "configurer/**/*.d.ts",
+    "templates"
   ],
   "type": "module",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
   "exports": {
     ".": "./src/index.js",
-    "./providers/MailProvider": "./src/Providers/MailProvider.js"
+    "./providers/MailProvider": "./src/Providers/MailProvider.js",
+    "./providers/SmtpServerProvider": "./src/Providers/SmtpServerProvider.js"
   },
   "imports": {
+    "#bin/*": "./bin/*.js",
+    "#bin": "./bin/index.js",
     "#src/*": "./src/*.js",
-    "#tests/*": "./tests/*.js"
+    "#src": "./src/index.js",
+    "#tests/*": "./tests/*.js",
+    "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "edge.js": "5.5.0",
-    "nodemailer": "6.9.0",
-    "nodemailer-markdown": "1.0.2"
+    "nodemailer": "^6.9.1",
+    "nodemailer-markdown": "^1.0.3",
+    "smtp-server": "^3.11.0
   },
   "devDependencies": {
-    "@athenna/common": "3.0.2",
-    "@athenna/config": "3.0.4",
-    "@athenna/ioc": "3.0.2",
-    "@japa/assert": "1.3.4",
-    "@japa/run-failed-tests": "1.0.7",
-    "@japa/runner": "2.0.7",
-    "@japa/spec-reporter": "1.1.12",
-    "@types/nodemailer": "6.4.7",
-    "c8": "7.11.2",
-    "commitizen": "4.2.5",
-    "cross-env": "7.0.3",
-    "cz-conventional-changelog": "3.3.0",
-    "eslint": "8.14.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-config-standard": "17.0.0",
-    "eslint-plugin-import": "2.26.0",
-    "eslint-plugin-n": "15.2.0",
-    "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-promise": "6.0.0",
-    "husky": "3.0.9",
-    "lint-staged": "12.4.1",
-    "minimist": "1.2.6",
-    "prettier": "2.6.2",
-    "rimraf": "3.0.2",
-    "typescript": "4.6.4"
+    "@athenna/artisan": "^3.5.0",
+    "@athenna/common": "^3.5.0",
+    "@athenna/config": "^3.3.0",
+    "@athenna/ioc": "^3.2.0",
+    "@athenna/logger": "^3.2.0",
+    "@athenna/test": "^3.3.0",
+    "@athenna/view": "^3.1.0",
+    "@japa/assert": "^1.3.6",
+    "@japa/run-failed-tests": "^1.1.0",
+    "@japa/runner": "^2.2.2",
+    "@japa/spec-reporter": "^1.3.2",
+    "@swc/core": "^1.3.27",
+    "@types/nodemailer": "^6.4.7",
+    "@types/smtp-server": "^3.5.7",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "c8": "^7.12.0",
+    "cls-rtracer": "^2.6.2",
+    "commitizen": "^4.2.6",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "husky": "^3.1.0",
+    "lint-staged": "^12.5.0",
+    "minimist": "^1.2.7",
+    "prettier": "^2.8.7",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
+    "sinon": "^15.0.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
   },
   "c8": {
     "all": true,
     "include": [
-      "src/**/*.js"
+      "src/**/*.ts"
     ],
     "exclude": [],
     "reporter": [
@@ -93,7 +117,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
+    "*.ts": [
       "eslint --fix",
       "git add"
     ],
@@ -123,35 +147,67 @@
       }
     ]
   },
+  "eslintIgnore": [
+    "build/**/*"
+  ],
   "eslintConfig": {
-    "globals": {
-      "Env": true,
-      "Config": true
-    },
     "env": {
       "es2021": true,
       "node": true
     },
+    "globals": {
+      "ioc": true,
+      "Env": true,
+      "Path": true,
+      "Config": true,
+      "container": true
+    },
     "plugins": [
-      "prettier"
+      "prettier",
+      "@typescript-eslint"
     ],
     "extends": [
       "standard",
       "eslint:recommended",
-      "plugin:prettier/recommended"
+      "plugin:prettier/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/eslint-recommended"
     ],
-    "ignorePatterns": [
-      "**/*.d.ts"
-    ],
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
+    "parser": "@typescript-eslint/parser",
     "rules": {
       "camelcase": "off",
       "dot-notation": "off",
       "prettier/prettier": "error",
-      "no-useless-constructor": "off"
+      "no-useless-constructor": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "caughtErrorsIgnorePattern": "^_"
+        }
+      ]
+    }
+  },
+  "athenna": {
+    "commands": [
+      "@athenna/artisan/commands/ConfigureCommand"
+    ],
+    "templates": {
+      "exception": "node_modules/@athenna/core/templates/exception.edge",
+      "facade": "node_modules/@athenna/core/templates/facade.edge",
+      "provider": "node_modules/@athenna/core/templates/provider.edge",
+      "repository": "node_modules/@athenna/core/templates/repository.edge",
+      "service": "node_modules/@athenna/core/templates/service.edge",
+      "test": "node_modules/@athenna/core/templates/test.edge",
+      "testFn": "node_modules/@athenna/core/templates/testFn.edge",
+      "command": "node_modules/@athenna/artisan/templates/command.edge",
+      "controller": "node_modules/@athenna/http/templates/controller.edge",
+      "middleware": "node_modules/@athenna/http/templates/middleware.edge",
+      "interceptor": "node_modules/@athenna/http/templates/interceptor.edge",
+      "terminator": "node_modules/@athenna/http/templates/terminator.edge"
     }
   }
 }

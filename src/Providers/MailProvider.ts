@@ -7,16 +7,11 @@
  * file that was distributed with this source code.
  */
 
-import { MailImpl } from '#src/index'
+import { MailImpl } from '#src'
 import { ServiceProvider } from '@athenna/ioc'
 
 export class MailProvider extends ServiceProvider {
-  /**
-   * Register any application services.
-   *
-   * @return {void}
-   */
-  register() {
+  public register() {
     this.container.bind('Athenna/Core/Mail', new MailImpl())
   }
 }
