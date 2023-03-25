@@ -1,6 +1,6 @@
 {
   "name": "@athenna/mail",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "The Athenna email handler. Built on top of nodemailer.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
@@ -28,14 +28,7 @@
     "src/*.d.ts",
     "src/**/*.js",
     "src/**/*.d.ts",
-    "configurer/*.js",
-    "configurer/*.yml",
-    "configurer/*.json",
-    "configurer/*.d.ts",
-    "configurer/**/*.js",
-    "configurer/**/*.yml",
-    "configurer/**/*.json",
-    "configurer/**/*.d.ts",
+    "configurer",
     "templates"
   ],
   "type": "module",

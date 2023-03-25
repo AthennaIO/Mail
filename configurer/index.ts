@@ -7,7 +7,6 @@
  * file that was distributed with this source code.
  */
 
-import { sep } from 'node:path'
 import { File } from '@athenna/common'
 import { BaseConfigurer } from '@athenna/artisan'
 
@@ -17,7 +16,9 @@ export default class MailConfigurer extends BaseConfigurer {
   public async configure() {
     const relativePath =
       (await this.prompt.input(
-        'Where do you want to save the mail config file? Press enter to set the default path to "./config"',
+        `Where do you want to save the config files? Pressing enter will set the path to ${this.paint.cyan(
+          './config',
+        )}`,
       )) || './config'
 
     this.configPath = Path.pwd(relativePath)
@@ -43,9 +44,7 @@ export default class MailConfigurer extends BaseConfigurer {
       path = './config/mail.ts'
     }
 
-    await new File(path).copy(
-      this.configPath.concat(`${sep}mail.${Path.ext()}`),
-    )
+    await new File(path).copy(this.configPath.concat(`/mail.${Path.ext()}`))
   }
 
   private async taskTwo() {
