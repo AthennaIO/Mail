@@ -114,8 +114,20 @@ out
 .yarn/install-state.gz
 .pnp.*
 
+# Compiled code
+./dist
+./build
+*.js
+*.d.ts
+*.js.map
+!tests/Stubs/**/*.js
+!tests/Stubs/**/*.d.ts
+!tests/Stubs/**/*.js.map
+!configurer/config/mail.js
+
 # IDE
 .idea
+.fleet
 .vscode
 
 # Environment variables file

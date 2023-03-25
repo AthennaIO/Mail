@@ -1,17 +1,27 @@
 /**
  * @athenna/mail
  *
- * (c) Victor Tesoura Júnior <txsoura@athenna.io>
+ * (c) João Lenon <lenon@athenna.io>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-import { pathToFileURL } from 'node:url'
-
 import { assert } from '@japa/assert'
+import { Importer } from '@athenna/test'
 import { specReporter } from '@japa/spec-reporter'
-import { processCliArgs, configure, run } from '@japa/runner'
+import { configure, processCliArgs, run } from '@japa/runner'
+
+/*
+|--------------------------------------------------------------------------
+| Set IS_TS env.
+|--------------------------------------------------------------------------
+|
+| Set the IS_TS environement variable to true. Very useful when using the
+| Path helper.
+*/
+
+process.env.IS_TS = 'true'
 
 /*
 |--------------------------------------------------------------------------
@@ -30,11 +40,12 @@ import { processCliArgs, configure, run } from '@japa/runner'
 configure({
   ...processCliArgs(process.argv.slice(2)),
   ...{
-    files: ['tests/**/*Test.js'],
+    files: ['tests/Unit/**/*Test.ts'],
     plugins: [assert()],
     reporters: [specReporter()],
-    importer: filePath => import(pathToFileURL(filePath).href),
+    importer: Importer.import,
   },
+  timeout: 10000,
 })
 
 /*
