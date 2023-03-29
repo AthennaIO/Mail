@@ -10,4 +10,4 @@
 import { MailImpl } from '#src'
 import { Facade } from '@athenna/ioc'
 
-export const Mail: MailImpl = Facade.createFor('Athenna/Core/Mail')
+export const Mail = Facade.createFor<MailImpl>('Athenna/Core/Mail')
