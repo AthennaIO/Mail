@@ -10,6 +10,6 @@
 import { SmtpServerImpl } from '#src'
 import { Facade } from '@athenna/ioc'
 
-export const SmtpServer: SmtpServerImpl = Facade.createFor(
+export const SmtpServer = Facade.createFor<SmtpServerImpl>(
   'Athenna/Core/SmtpServer',
 )
