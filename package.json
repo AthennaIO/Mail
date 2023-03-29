@@ -1,6 +1,6 @@
 {
   "name": "@athenna/mail",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "The Athenna email handler. Built on top of nodemailer.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
