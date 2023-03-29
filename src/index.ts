@@ -8,6 +8,7 @@
  */
 
 export * from './Facades/Mail.js'
+export * from './Facades/SmtpServer.js'
 export * from './Mail/MailImpl.js'
 export * from './Smtp/SmtpServerImpl.js'
 export * from './Providers/MailProvider.js'
