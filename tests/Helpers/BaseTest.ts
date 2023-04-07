@@ -10,10 +10,11 @@
 import { ViewProvider } from '@athenna/view'
 import { File, Folder } from '@athenna/common'
 import { LoggerProvider } from '@athenna/logger'
+import { SmtpServer } from '#src/Facades/SmtpServer'
 import { MailProvider, SmtpServerProvider } from '#src'
 import { BeforeEach, AfterEach, ExitFaker } from '@athenna/test'
-import { ArtisanProvider, CommanderHandler, COMMANDS_SETTINGS, ConsoleKernel } from '@athenna/artisan'
-import { SmtpServer } from '#src/Facades/SmtpServer'
+import { ArtisanProvider, CommanderHandler, ConsoleKernel } from '@athenna/artisan'
+import { Rc } from '@athenna/config'
 
 export class BaseTest {
   public originalPJson = new File(Path.pwd('package.json')).getContentAsStringSync()
@@ -36,6 +37,8 @@ export class BaseTest {
 
     const kernel = new ConsoleKernel()
 
+    await Rc.setFile(Path.pwd('package.json'))
+
     await kernel.registerExceptionHandler()
     await kernel.registerCommands()
   }
@@ -52,7 +55,6 @@ export class BaseTest {
 
     Config.clear()
     ioc.reconstruct()
-    COMMANDS_SETTINGS.clear()
 
     CommanderHandler.getCommander<any>()._events = {}
     CommanderHandler.getCommander<any>().commands = []
