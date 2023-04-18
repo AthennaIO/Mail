@@ -7,6 +7,7 @@
  * file that was distributed with this source code.
  */
 
+import { Rc } from '@athenna/config'
 import { ViewProvider } from '@athenna/view'
 import { File, Folder } from '@athenna/common'
 import { LoggerProvider } from '@athenna/logger'
@@ -14,7 +15,6 @@ import { SmtpServer } from '#src/Facades/SmtpServer'
 import { MailProvider, SmtpServerProvider } from '#src'
 import { BeforeEach, AfterEach, ExitFaker } from '@athenna/test'
 import { ArtisanProvider, CommanderHandler, ConsoleKernel } from '@athenna/artisan'
-import { Rc } from '@athenna/config'
 
 export class BaseTest {
   public originalPJson = new File(Path.pwd('package.json')).getContentAsStringSync()
