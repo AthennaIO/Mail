@@ -48,7 +48,7 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "nodemailer": "^6.9.1",
+    "nodemailer": "^6.9.2",
     "nodemailer-markdown": "^1.0.3",
     "smtp-server": "^3.11.0"
   },
