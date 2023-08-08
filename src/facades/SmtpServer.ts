@@ -7,7 +7,9 @@
  * file that was distributed with this source code.
  */
 
-import { MailImpl } from '#src'
 import { Facade } from '@athenna/ioc'
+import type { SmtpServerImpl } from '#src'
 
-export const Mail = Facade.createFor<MailImpl>('Athenna/Core/Mail')
+export const SmtpServer = Facade.createFor<SmtpServerImpl>(
+  'Athenna/Core/SmtpServer',
+)

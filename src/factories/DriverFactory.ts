@@ -8,9 +8,9 @@
  */
 
 import { Config } from '@athenna/config'
-import { SmtpDriver } from '#src/Drivers/SmtpDriver'
-import { NotFoundDriverException } from '#src/Exceptions/NotFoundDriverException'
-import { NotImplementedConfigException } from '#src/Exceptions/NotImplementedConfigException'
+import { SmtpDriver } from '#src/drivers/SmtpDriver'
+import { NotFoundDriverException } from '#src/exceptions/NotFoundDriverException'
+import { NotImplementedConfigException } from '#src/exceptions/NotImplementedConfigException'
 
 export class DriverFactory {
   /**

@@ -8,7 +8,7 @@
  */
 
 import { Exception } from '@athenna/common'
-import { DriverFactory } from '#src/Factories/DriverFactory'
+import { DriverFactory } from '#src/factories/DriverFactory'
 
 export class NotFoundDriverException extends Exception {
   public constructor(driverName: string) {

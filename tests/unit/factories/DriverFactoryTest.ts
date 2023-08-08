@@ -7,34 +7,35 @@
  * file that was distributed with this source code.
  */
 
+import { Test } from '@athenna/test'
 import { DriverFactory } from '#src'
-import { Test, TestContext } from '@athenna/test'
-import { BaseTest } from '#tests/Helpers/BaseTest'
-import { NotFoundDriverException } from '#src/Exceptions/NotFoundDriverException'
-import { NotImplementedConfigException } from '#src/Exceptions/NotImplementedConfigException'
+import { BaseTest } from '#tests/helpers/BaseTest'
+import type { Context } from '@athenna/test/types'
+import { NotFoundDriverException } from '#src/exceptions/NotFoundDriverException'
+import { NotImplementedConfigException } from '#src/exceptions/NotImplementedConfigException'
 
 export default class DriverFactoryTest extends BaseTest {
   @Test()
-  public shouldBeAbleToGetTheAvailableDriversOfDriverFactory({ assert }: TestContext) {
+  public shouldBeAbleToGetTheAvailableDriversOfDriverFactory({ assert }: Context) {
     const drivers = DriverFactory.availableDrivers()
 
     assert.deepEqual(drivers, ['smtp'])
   }
 
   @Test()
-  public shouldThrowANotImplementedConfigException({ assert }: TestContext) {
+  public shouldThrowANotImplementedConfigException({ assert }: Context) {
     assert.throws(() => DriverFactory.fabricate('notImplemented'), NotImplementedConfigException)
   }
 
   @Test()
-  public shouldThrowANotImplementedConfigExceptionWithDifferentHelpMessage({ assert }: TestContext) {
+  public shouldThrowANotImplementedConfigExceptionWithDifferentHelpMessage({ assert }: Context) {
     Config.delete('mail')
 
     assert.throws(() => DriverFactory.fabricate('notImplemented'), NotImplementedConfigException)
   }
 
   @Test()
-  public shouldThrowANotFoundDriverException({ assert }: TestContext) {
+  public shouldThrowANotFoundDriverException({ assert }: Context) {
     assert.throws(() => DriverFactory.fabricate('nullDriver'), NotFoundDriverException)
   }
 }

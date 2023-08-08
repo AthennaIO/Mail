@@ -8,12 +8,13 @@
  */
 
 import { Mail } from '#src'
-import { Test, TestContext } from '@athenna/test'
-import { BaseTest } from '#tests/Helpers/BaseTest'
+import { Test } from '@athenna/test'
+import { BaseTest } from '#tests/helpers/BaseTest'
+import type { Context } from '@athenna/test/types'
 
 export default class SmtpDriverTest extends BaseTest {
   @Test()
-  public async shouldBeAbleToSendEmailsAsText({ assert }: TestContext) {
+  public async shouldBeAbleToSendEmailsAsText({ assert }: Context) {
     const result = await Mail.mailer('default')
       .from('no-reply@athenna.io')
       .to('lenon@athenna.io')
@@ -35,7 +36,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToSendEmailsAsHtml({ assert }: TestContext) {
+  public async shouldBeAbleToSendEmailsAsHtml({ assert }: Context) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
@@ -47,7 +48,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToSendEmailsAsMarkdown({ assert }: TestContext) {
+  public async shouldBeAbleToSendEmailsAsMarkdown({ assert }: Context) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
@@ -59,7 +60,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToSetUpPlainTextViewsAndSendIt({ assert }: TestContext) {
+  public async shouldBeAbleToSetUpPlainTextViewsAndSendIt({ assert }: Context) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
@@ -71,7 +72,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToSetUpHtmlViewsAndSendIt({ assert }: TestContext) {
+  public async shouldBeAbleToSetUpHtmlViewsAndSendIt({ assert }: Context) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
@@ -83,7 +84,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToSetUpMarkdownViewsAndSendIt({ assert }: TestContext) {
+  public async shouldBeAbleToSetUpMarkdownViewsAndSendIt({ assert }: Context) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
@@ -95,7 +96,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToSendFilesAsAttachmentsInEmails({ assert }: TestContext) {
+  public async shouldBeAbleToSendFilesAsAttachmentsInEmails({ assert }: Context) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachment')
@@ -108,7 +109,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToCreateAndSendContentsAsAttachmentsInEmails({ assert }: TestContext) {
+  public async shouldBeAbleToCreateAndSendContentsAsAttachmentsInEmails({ assert }: Context) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachment')
@@ -121,7 +122,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToSendMultipleAttachmentsInEmails({ assert }: TestContext) {
+  public async shouldBeAbleToSendMultipleAttachmentsInEmails({ assert }: Context) {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachments')
@@ -134,7 +135,7 @@ export default class SmtpDriverTest extends BaseTest {
   }
 
   @Test()
-  public async shouldBeAbleToChangeConfigurationInRuntime({ assert }: TestContext) {
+  public async shouldBeAbleToChangeConfigurationInRuntime({ assert }: Context) {
     const result = await Mail.config({ port: 5080 })
       .mailer('smtp')
       .from('no-reply@athenna.io')

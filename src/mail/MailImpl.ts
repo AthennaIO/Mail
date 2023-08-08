@@ -8,8 +8,8 @@
  */
 
 import { Config } from '@athenna/config'
-import { Envelope } from 'nodemailer/lib/mailer/index.js'
-import { DriverFactory } from '#src/Factories/DriverFactory'
+import { DriverFactory } from '#src/factories/DriverFactory'
+import type { Envelope } from 'nodemailer/lib/mailer/index.js'
 
 export class MailImpl {
   /**

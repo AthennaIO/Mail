@@ -7,10 +7,14 @@
  * file that was distributed with this source code.
  */
 
-export * from './Facades/Mail.js'
-export * from './Facades/SmtpServer.js'
-export * from './Mail/MailImpl.js'
-export * from './Smtp/SmtpServerImpl.js'
-export * from './Providers/MailProvider.js'
-export * from './Factories/DriverFactory.js'
-export * from './Providers/SmtpServerProvider.js'
+export * from '#src/facades/Mail'
+export * from '#src/facades/SmtpServer'
+
+export * from '#src/mail/MailImpl'
+
+export * from '#src/smtp/SmtpServerImpl'
+
+export * from '#src/factories/DriverFactory'
+
+export * from '#src/providers/MailProvider'
+export * from '#src/providers/SmtpServerProvider'
