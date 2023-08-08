@@ -13,8 +13,12 @@ import SMTPTransport from 'nodemailer/lib/smtp-transport/index.js'
 
 import { View } from '@athenna/view'
 import { File, Folder } from '@athenna/common'
-import { Envelope } from 'nodemailer/lib/mailer/index.js'
-import { createTransport, Transporter, SendMailOptions } from 'nodemailer'
+import type { Envelope } from 'nodemailer/lib/mailer/index.js'
+import {
+  createTransport,
+  type Transporter,
+  type SendMailOptions,
+} from 'nodemailer'
 
 const markdown = nodemailerMd.markdown
 

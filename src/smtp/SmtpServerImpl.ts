@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { SMTPServer, SMTPServerOptions } from 'smtp-server'
+import { SMTPServer, type SMTPServerOptions } from 'smtp-server'
 
 export class SmtpServerImpl {
   /**
