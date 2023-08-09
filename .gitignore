@@ -123,6 +123,7 @@ build
 !tests/stubs/**/*.js
 !tests/stubs/**/*.d.ts
 !tests/stubs/**/*.js.map
+!configurer/config/mail.js
 
 # IDE
 .idea
