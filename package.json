@@ -1,6 +1,6 @@
 {
   "name": "@athenna/mail",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "The Athenna email handler. Built on top of nodemailer.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
@@ -53,18 +53,18 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "nodemailer": "^6.9.2",
+    "nodemailer": "^6.9.4",
     "nodemailer-markdown": "^1.0.3",
-    "smtp-server": "^3.12.0"
+    "smtp-server": "^3.13.0"
   },
   "devDependencies": {
-    "@athenna/artisan": "^4.2.0",
-    "@athenna/common": "^4.4.0",
-    "@athenna/config": "^4.3.0",
-    "@athenna/ioc": "^4.1.0",
-    "@athenna/logger": "^4.2.0",
-    "@athenna/test": "^4.3.0",
-    "@athenna/view": "^4.1.0",
+    "@athenna/artisan": "^4.9.0",
+    "@athenna/common": "^4.10.1",
+    "@athenna/config": "^4.4.0",
+    "@athenna/ioc": "^4.2.0",
+    "@athenna/logger": "^4.3.0",
+    "@athenna/test": "^4.5.0",
+    "@athenna/view": "^4.2.0",
     "@types/nodemailer": "^6.4.7",
     "@types/smtp-server": "^3.5.7",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
@@ -122,7 +122,7 @@
   },
   "prettier": {
     "singleQuote": true,
-    "trailingComma": "all",
+    "trailingComma": "none",
     "arrowParens": "avoid",
     "endOfLine": "lf",
     "semi": false,
@@ -189,7 +189,9 @@
       "repository": "node_modules/@athenna/core/templates/repository.edge",
       "service": "node_modules/@athenna/core/templates/service.edge",
       "test": "node_modules/@athenna/core/templates/test.edge",
-      "testFn": "node_modules/@athenna/core/templates/testFn.edge",
+      "test-fn": "node_modules/@athenna/core/templates/test-fn.edge",
+      "test-cli": "node_modules/@athenna/core/templates/test-cli.edge",
+      "test-rest": "node_modules/@athenna/core/templates/test-rest.edge",
       "command": "node_modules/@athenna/artisan/templates/command.edge",
       "controller": "node_modules/@athenna/http/templates/controller.edge",
       "middleware": "node_modules/@athenna/http/templates/middleware.edge",

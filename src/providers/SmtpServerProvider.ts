@@ -17,7 +17,7 @@ export class SmtpServerProvider extends ServiceProvider {
 
   public async shutdown() {
     const SmtpServer = this.container.use<SmtpServerImpl>(
-      'Athenna/Core/SmtpServer',
+      'Athenna/Core/SmtpServer'
     )
 
     if (!SmtpServer) {

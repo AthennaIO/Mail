@@ -17,7 +17,7 @@ import type { Envelope } from 'nodemailer/lib/mailer/index.js'
 import {
   createTransport,
   type Transporter,
-  type SendMailOptions,
+  type SendMailOptions
 } from 'nodemailer'
 
 const markdown = nodemailerMd.markdown
@@ -141,7 +141,7 @@ export class SmtpDriver {
   public attachment(
     pathOrFileName: string,
     content?: any,
-    encoding?: string,
+    encoding?: string
   ): SmtpDriver {
     if (!this.message.attachments) {
       this.message.attachments = []
@@ -152,7 +152,7 @@ export class SmtpDriver {
 
       this.message.attachments.push({
         filename: file.base,
-        content: file.getContentSync(),
+        content: file.getContentSync()
       })
 
       return this
@@ -218,7 +218,7 @@ export class SmtpDriver {
   public view(
     name: string,
     data?: any,
-    renderType: 'markdown' | 'html' | 'text' = 'html',
+    renderType: 'markdown' | 'html' | 'text' = 'html'
   ): SmtpDriver {
     this.message[renderType] = View.renderSync(name, data)
 

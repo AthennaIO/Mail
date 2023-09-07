@@ -35,7 +35,7 @@ export class SmtpServerImpl {
   public async listen(
     port = 5025,
     host?: string,
-    backlog?: number,
+    backlog?: number
   ): Promise<void> {
     return new Promise((resolve, reject) => {
       try {

@@ -17,7 +17,7 @@ export class DriverFactory {
    * Driver of driver factory.
    */
   public static drivers: Map<string, { Driver: any }> = new Map().set('smtp', {
-    Driver: SmtpDriver,
+    Driver: SmtpDriver
   })
 
   /**

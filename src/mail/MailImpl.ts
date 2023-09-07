@@ -193,7 +193,7 @@ export class MailImpl {
   public view(
     name: string,
     data?: any,
-    renderType?: 'markdown' | 'html' | 'text',
+    renderType?: 'markdown' | 'html' | 'text'
   ): MailImpl {
     this.driver.view(name, data, renderType)
 

@@ -18,7 +18,7 @@ export class NotImplementedConfigException extends Exception {
 
     if (Config.get('mail.mailers')) {
       const availableConfigs = Object.keys(Config.get('mail.mailers')).join(
-        ', ',
+        ', '
       )
 
       help += `Available mailers are: ${availableConfigs}.`
@@ -32,7 +32,7 @@ export class NotImplementedConfigException extends Exception {
       message,
       status: 500,
       code: 'E_NOT_IMPLEMENTED_CONFIG_ERROR',
-      help,
+      help
     })
   }
 }
