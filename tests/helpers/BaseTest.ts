@@ -25,7 +25,7 @@ export class BaseTest {
 
     process.env.IS_TS = 'true'
 
-    await Config.loadAll(Path.stubs('config'))
+    await Config.loadAll(Path.fixtures('config'))
 
     await new MailProvider().register()
     await new ViewProvider().register()
@@ -61,7 +61,7 @@ export class BaseTest {
     CommanderHandler.getCommander<any>()._version = undefined
 
     await Folder.safeRemove(Path.config())
-    await Folder.safeRemove(Path.stubs('storage'))
+    await Folder.safeRemove(Path.fixtures('storage'))
 
     await File.safeRemove(Path.pwd('.env'))
     await File.safeRemove(Path.pwd('.env.test'))

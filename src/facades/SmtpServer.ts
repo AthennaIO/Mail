@@ -11,5 +11,5 @@ import { Facade } from '@athenna/ioc'
 import type { SmtpServerImpl } from '#src'
 
 export const SmtpServer = Facade.createFor<SmtpServerImpl>(
-  'Athenna/Core/SmtpServer',
+  'Athenna/Core/SmtpServer'
 )

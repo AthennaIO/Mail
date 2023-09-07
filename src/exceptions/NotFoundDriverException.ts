@@ -19,7 +19,7 @@ export class NotFoundDriverException extends Exception {
       message,
       status: 500,
       code: 'E_NOT_FOUND_ERROR',
-      help: `Available drivers are: ${availableDrivers}. Look into your config/mail file if ${driverName} driver is implemented by mail. Or create ${driverName} driver implementation using DriverFactory.createDriver("${driverName}", ...) method.`,
+      help: `Available drivers are: ${availableDrivers}. Look into your config/mail file if ${driverName} driver is implemented by mail. Or create ${driverName} driver implementation using DriverFactory.createDriver("${driverName}", ...) method.`
     })
   }
 }

@@ -16,11 +16,11 @@ export default {
       host: 'localhost',
       port: 5025,
       tls: {
-        rejectUnauthorized: false,
-      },
+        rejectUnauthorized: false
+      }
     },
     nullDriver: {
-      driver: 'not-found',
-    },
-  },
+      driver: 'not-found'
+    }
+  }
 }

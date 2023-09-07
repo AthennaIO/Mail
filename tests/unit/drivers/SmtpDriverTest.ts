@@ -31,7 +31,7 @@ export default class SmtpDriverTest extends BaseTest {
     assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, {
       from: 'no-reply@athenna.io',
-      to: ['lenon@athenna.io'],
+      to: ['lenon@athenna.io']
     })
   }
 
@@ -100,7 +100,7 @@ export default class SmtpDriverTest extends BaseTest {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachment')
-      .attachment(Path.stubs('attachments/file.txt'))
+      .attachment(Path.fixtures('attachments/file.txt'))
       .text('Sending the e-mail attachment')
       .send()
 
@@ -126,7 +126,7 @@ export default class SmtpDriverTest extends BaseTest {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachments')
-      .attachments(Path.stubs('attachments'))
+      .attachments(Path.fixtures('attachments'))
       .text('Sending the e-mail attachments')
       .send()
 
@@ -141,7 +141,7 @@ export default class SmtpDriverTest extends BaseTest {
       .from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Email attachments')
-      .attachments(Path.stubs('attachments'))
+      .attachments(Path.fixtures('attachments'))
       .text('Sending the e-mail attachments')
       .send()
 
