@@ -13,16 +13,14 @@ import { File, Folder } from '@athenna/common'
 import { LoggerProvider } from '@athenna/logger'
 import { SmtpServer } from '#src/facades/SmtpServer'
 import { MailProvider, SmtpServerProvider } from '#src'
-import { BeforeEach, AfterEach, ExitFaker } from '@athenna/test'
-import { ArtisanProvider, CommanderHandler, ConsoleKernel } from '@athenna/artisan'
+import { BeforeEach, AfterEach, Mock } from '@athenna/test'
+import { ArtisanProvider, ConsoleKernel } from '@athenna/artisan'
 
 export class BaseTest {
   public originalPJson = new File(Path.pwd('package.json')).getContentAsStringSync()
 
   @BeforeEach()
   public async beforeEach() {
-    ExitFaker.fake()
-
     process.env.IS_TS = 'true'
 
     await Config.loadAll(Path.fixtures('config'))
@@ -45,7 +43,7 @@ export class BaseTest {
 
   @AfterEach()
   public async afterEach() {
-    ExitFaker.release()
+    Mock.restoreAll()
 
     await new MailProvider().shutdown()
     await new ViewProvider().shutdown()
@@ -55,10 +53,6 @@ export class BaseTest {
 
     Config.clear()
     ioc.reconstruct()
-
-    CommanderHandler.getCommander<any>()._events = {}
-    CommanderHandler.getCommander<any>().commands = []
-    CommanderHandler.getCommander<any>()._version = undefined
 
     await Folder.safeRemove(Path.config())
     await Folder.safeRemove(Path.fixtures('storage'))

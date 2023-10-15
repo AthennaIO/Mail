@@ -17,8 +17,8 @@ export default class MailConfigurer extends BaseConfigurer {
     const relativePath =
       (await this.prompt.input(
         `Where do you want to save the config files? Pressing enter will set the path to ${this.paint.cyan(
-          './config',
-        )}`,
+          './config'
+        )}`
       )) || './config'
 
     this.configPath = Path.pwd(relativePath)
@@ -26,13 +26,13 @@ export default class MailConfigurer extends BaseConfigurer {
     await this.logger
       .task()
       .add(`Create mail.${Path.ext()} config file`, t =>
-        this.setTask(t, () => this.taskOne()),
+        this.setTask(t, () => this.taskOne())
       )
       .add('Update providers of .athennarc.json', t =>
-        this.setTask(t, () => this.taskTwo()),
+        this.setTask(t, () => this.taskTwo())
       )
       .add('Update .env, .env.test and .env.example', t =>
-        this.setTask(t, () => this.taskThree()),
+        this.setTask(t, () => this.taskThree())
       )
       .run()
   }
