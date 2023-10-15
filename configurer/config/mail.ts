@@ -38,11 +38,11 @@ export default {
       port: Env('MAIL_PORT', 587),
       auth: {
         user: Env('MAIL_USERNAME'),
-        pass: Env('MAIL_PASSWORD'),
+        pass: Env('MAIL_PASSWORD')
       },
       tls: {
-        rejectUnauthorized: false,
-      },
-    },
-  },
+        rejectUnauthorized: false
+      }
+    }
+  }
 }
