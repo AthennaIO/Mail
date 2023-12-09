@@ -1,6 +1,6 @@
 {
   "name": "@athenna/mail",
-  "version": "4.4.0",
+  "version": "4.5.0",
   "description": "The Athenna email handler. Built on top of nodemailer.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
@@ -57,8 +57,8 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "nodemailer": "^6.9.5",
-    "nodemailer-markdown": "^1.0.2",
+    "nodemailer": "^6.9.7",
+    "nodemailer-markdown": "^1.0.3",
     "smtp-server": "^3.13.0"
   },
   "devDependencies": {
