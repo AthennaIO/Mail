@@ -19,7 +19,7 @@ export default class DriverFactoryTest extends BaseTest {
   public shouldBeAbleToGetTheAvailableDriversOfDriverFactory({ assert }: Context) {
     const drivers = DriverFactory.availableDrivers()
 
-    assert.deepEqual(drivers, ['smtp'])
+    assert.deepEqual(drivers, ['fake', 'smtp'])
   }
 
   @Test()

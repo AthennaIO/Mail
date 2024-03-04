@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { File } from '@athenna/common'
+import { File, Path } from '@athenna/common'
 import { BaseConfigurer } from '@athenna/artisan'
 
 export default class MailConfigurer extends BaseConfigurer {

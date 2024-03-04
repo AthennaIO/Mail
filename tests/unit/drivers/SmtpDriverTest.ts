@@ -9,6 +9,7 @@
 
 import { Mail } from '#src'
 import { Test } from '@athenna/test'
+import { Path } from '@athenna/common'
 import { BaseTest } from '#tests/helpers/BaseTest'
 import type { Context } from '@athenna/test/types'
 
@@ -64,7 +65,7 @@ export default class SmtpDriverTest extends BaseTest {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
-      .view('mail::plain', { name: 'Athenna' })
+      .view('mail/plain', { name: 'Athenna' })
       .send()
 
     assert.deepEqual(result.response, '250 OK: message queued')
@@ -76,7 +77,7 @@ export default class SmtpDriverTest extends BaseTest {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
-      .view('mail::html', { name: 'Athenna' })
+      .view('mail/html', { name: 'Athenna' })
       .send()
 
     assert.deepEqual(result.response, '250 OK: message queued')
@@ -88,7 +89,7 @@ export default class SmtpDriverTest extends BaseTest {
     const result = await Mail.from('no-reply@athenna.io')
       .to('lenon@athenna.io')
       .subject('Hello from Athenna!')
-      .view('mail::markdown', { name: 'Athenna' })
+      .view('mail/markdown', { name: 'Athenna' })
       .send()
 
     assert.deepEqual(result.response, '250 OK: message queued')
