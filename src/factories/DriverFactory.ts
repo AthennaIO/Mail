@@ -9,6 +9,7 @@
 
 import { Config } from '@athenna/config'
 import { SmtpDriver } from '#src/drivers/SmtpDriver'
+import { FakeDriver } from '#src/drivers/FakeDriver'
 import { NotFoundDriverException } from '#src/exceptions/NotFoundDriverException'
 import { NotImplementedConfigException } from '#src/exceptions/NotImplementedConfigException'
 
@@ -16,9 +17,9 @@ export class DriverFactory {
   /**
    * Driver of driver factory.
    */
-  public static drivers: Map<string, { Driver: any }> = new Map().set('smtp', {
-    Driver: SmtpDriver
-  })
+  public static drivers: Map<string, { Driver: any }> = new Map()
+    .set('fake', { Driver: FakeDriver })
+    .set('smtp', { Driver: SmtpDriver })
 
   /**
    * Return an array of all available drivers.

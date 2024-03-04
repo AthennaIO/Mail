@@ -1,8 +1,5 @@
+import { Path } from '@athenna/common'
+
 export default {
-  disks: {
-    mail: Path.fixtures('views/mail')
-  },
-  edge: {
-    cache: false
-  }
+  disk: Path.fixtures('views')
 }

@@ -18,7 +18,7 @@ export class MailImpl {
   public mailerName: string = Config.get('mail.default')
 
   /**
-   * The driver responsible for mailering the mails.
+   * The driver responsible for transporting the mails.
    */
   private driver: any = null
 

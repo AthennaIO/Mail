@@ -9,8 +9,8 @@
 
 import { Rc } from '@athenna/config'
 import { ViewProvider } from '@athenna/view'
-import { File, Folder } from '@athenna/common'
 import { LoggerProvider } from '@athenna/logger'
+import { Path, File, Folder } from '@athenna/common'
 import { SmtpServer } from '#src/facades/SmtpServer'
 import { MailProvider, SmtpServerProvider } from '#src'
 import { BeforeEach, AfterEach, Mock } from '@athenna/test'
