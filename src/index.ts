@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+export * from '#src/types'
+
 export * from '#src/facades/Mail'
 export * from '#src/facades/SmtpServer'
 
