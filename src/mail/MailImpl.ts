@@ -8,8 +8,10 @@
  */
 
 import { Config } from '@athenna/config'
+import type { ContentOptions } from '#src/types'
+import type { Driver } from '#src/drivers/Driver'
 import { DriverFactory } from '#src/factories/DriverFactory'
-import type { Envelope } from 'nodemailer/lib/mailer/index.js'
+import type { Attachment, Envelope } from 'nodemailer/lib/mailer/index.js'
 
 export class MailImpl {
   /**
@@ -20,7 +22,7 @@ export class MailImpl {
   /**
    * The driver responsible for transporting the mails.
    */
-  private driver: any = null
+  public driver: Driver = null
 
   /**
    * Runtime configurations to be used inside the Drivers.
@@ -45,6 +47,15 @@ export class MailImpl {
 
   /**
    * Change the mail mailer.
+   *
+   * @example
+   * ```ts
+   * await Mail.mailer('my-smtp')
+   *  .from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .content('Hello World!')
+   *  .send()
+   * ```
    */
   public mailer(mailer: string): MailImpl {
     this.runtimeConfig = {}
@@ -56,69 +67,133 @@ export class MailImpl {
 
   /**
    * Send a new mail message.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .content('Hello World!')
+   *  .send()
+   * ```
    */
   public async send(): Promise<any> {
     return this.driver.send()
   }
 
   /**
-   * Define mail sender.
+   * Define the email that is sending the email.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io').send()
+   * ```
    */
-  public from(from: string): MailImpl {
+  public from(from: string) {
     this.driver.from(from)
 
     return this
   }
 
   /**
-   * Define mail receiver.
+   * Define who will receive the email.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io, mailer@athenna.io')
+   *  .to('lenon@athenna.io', 'mailer@athenna.io')
+   *  .send()
+   * ```
    */
-  public to(...to: string[]): MailImpl {
+  public to(...to: string[]) {
     this.driver.to(...to)
 
     return this
   }
 
   /**
-   * Define mail subject.
+   * Define the email subject that will appear on the
+   * subject field.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .subject('Hello World!')
+   *  .send()
+   * ```
    */
-  public subject(subject: string): MailImpl {
+  public subject(subject: string) {
     this.driver.subject(subject)
 
     return this
   }
 
   /**
-   * Define mail cc.
+   * Define the emails that will appear on the cc field.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .cc('mailer@athenna.io, mailer2@athenna.io')
+   *  .cc('mailer@athenna.io', 'mailer2@athenna.io')
+   *  .send()
+   * ```
    */
-  public cc(...cc: string[]): MailImpl {
+  public cc(...cc: string[]) {
     this.driver.cc(...cc)
 
     return this
   }
 
   /**
-   * Define mail bcc.
+   * Define the emails that will appear on the bcc field.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .bcc('mailer@athenna.io, mailer2@athenna.io')
+   *  .bcc('mailer@athenna.io', 'mailer2@athenna.io')
+   *  .send()
+   * ```
    */
-  public bcc(...bcc: string[]): MailImpl {
+  public bcc(...bcc: string[]) {
     this.driver.bcc(...bcc)
 
     return this
   }
 
   /**
-   * Define mail reply to.
+   * Define the email that will apear in the reply to field.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .replyTo('mailer@athenna.io')
+   *  .send()
+   * ```
    */
-  public replyTo(replyTo: string): MailImpl {
+  public replyTo(replyTo: string) {
     this.driver.replyTo(replyTo)
 
     return this
   }
 
   /**
-   * Define mail in reply to.
+   * Define the emails that this message is replying to.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .inReplyTo('mailer@athenna.io')
+   *  .send()
+   * ```
    */
-  public inReplyTo(inReplyTo: string): MailImpl {
+  public inReplyTo(inReplyTo: string) {
     this.driver.inReplyTo(inReplyTo)
 
     return this
@@ -126,76 +201,297 @@ export class MailImpl {
 
   /**
    * Define mail references.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .references('1, 2, 3')
+   *  .send()
+   * ```
    */
-  public references(references: string): MailImpl {
+  public references(references: string) {
     this.driver.references(references)
 
     return this
   }
 
   /**
-   * Define mail envelope.
+   * The envelope is usually auto generated from `from()`, `to()`,
+   * `cc()` and `bcc()` methods but if for some reason you want
+   * to specify it yourself (custom envelopes are usually used
+   * for VERP addresses), you can use this method:
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .envelope({
+   *    from: 'Lenon <lenon@athenna.io>',
+   *    to: 'mailer@athenna.io, Mailer <mailer2@athenna.io>'
+   *    cc: 'mailer3@athenna.io',
+   *    bcc: 'mailer4@athenna.io'
+   *  })
+   *  .send()
+   * ```
    */
-  public envelope(envelope: Envelope): MailImpl {
+  public envelope(envelope: Envelope) {
     this.driver.envelope(envelope)
 
     return this
   }
 
   /**
-   * Define mail attachment.
+   * Define a date for the email. If not defined, current
+   * UTC string will be used.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .date(new Date())
+   *  .send()
+   * ```
    */
-  public attachment(path: string, content?: any, encoding?: string): MailImpl {
-    this.driver.attachment(path, content, encoding)
+  public date(value: string | Date) {
+    this.driver.date(value)
 
     return this
   }
 
   /**
-   * Define mail attachments.
+   * Identifies encoding for `text/html` strings
+   * (defaults to ‘utf-8’, other values are ‘hex’ and
+   * ‘base64’).
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .encoding('utf-8')
+   *  .send()
+   * ```
    */
-  public attachments(folderPath: string): MailImpl {
-    this.driver.attachments(folderPath)
+  public encoding(value: 'utf-8' | 'hex' | 'base64') {
+    this.driver.encoding(value)
 
     return this
   }
 
   /**
-   * Define mail plain text.
+   * Force content-transfer-encoding for text values (either
+   * `quoted-printable` or `base64`). By default the best option
+   * is detected (for lots of ascii use `quoted-printable`,
+   * otherwise `base64`).
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .textEncoding('base64')
+   *  .send()
+   * ```
    */
-  public text(text: string): MailImpl {
-    this.driver.text(text)
+  public textEncoding(value: 'quoted-printable' | 'base64') {
+    this.driver.textEncoding(value)
 
     return this
   }
 
   /**
-   * Define mail html.
+   * If `true`, then does not allow to use files as content.
+   * Use it when you want to use JSON data from untrusted
+   * source as the email. If an attachment or message node
+   * tries to fetch something from a file the sending returns
+   * an error. If this field is also set in the transport
+   * options, then the value in mail data is ignored.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .disableFileAccess(true)
+   *  .send()
+   * ```
    */
-  public html(html: string): MailImpl {
-    this.driver.html(html)
+  public disableFileAccess(value: boolean) {
+    this.driver.disableFileAccess(value)
 
     return this
   }
 
   /**
-   * Define mail markdown.
+   * If `true`, then does not allow to use Urls as content.
+   * If this field is also set in the transport options,
+   * then the value in mail data is ignored
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .disableUrlAccess(true)
+   *  .send()
+   * ```
    */
-  public markdown(markdown: string): MailImpl {
-    this.driver.markdown(markdown)
+  public disableUrlAccess(value: boolean) {
+    this.driver.disableUrlAccess(value)
 
     return this
   }
 
   /**
-   * Define mail view.
+   * Sets the email importance headers, either `high`,
+   * `normal` (default) or `low`.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .priority('high')
+   *  .send()
+   * ```
    */
-  public view(
-    name: string,
-    data?: any,
-    renderType?: 'markdown' | 'html' | 'text'
-  ): MailImpl {
-    this.driver.view(name, data, renderType)
+  public priority(value: 'high' | 'normal' | 'low') {
+    this.driver.priority(value)
+
+    return this
+  }
+
+  /**
+   * Define a header to your email.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .header('x-my-key', 'header value')
+   *  .send()
+   * ```
+   */
+  public header(key: string, value: any) {
+    this.driver.header(key, value)
+
+    return this
+  }
+
+  /**
+   * Define a header to your email only if it's not already
+   * defined.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .safeHeader('x-my-key', 'header value')
+   *  .send()
+   * ```
+   */
+  public safeHeader(key: string, value: any) {
+    this.driver.safeHeader(key, value)
+
+    return this
+  }
+
+  /**
+   * Remove a header from your email.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .removeHeader('x-my-key')
+   *  .send()
+   * ```
+   */
+  public removeHeader(key: string) {
+    this.driver.removeHeader(key)
+
+    return this
+  }
+
+  /**
+   * Set a file as attachment or a file path to be sent in
+   * the email.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .attachment({
+   *    filename: 'file.txt',
+   *    content: 'hello world!'
+   *  })
+   *  .attachment({
+   *    filename: 'file.pdf',
+   *    path: Path.storage('mail/file.pdf'),
+   *    contentType: 'text/plain'
+   *  })
+   *  .attachment({
+   *    filename: 'license.txt',
+   *    path: 'https://raw.github.com/nodemailer/nodemailer/master/LICENSE'
+   *   })
+   *   .attachment({
+   *      filename: 'text1.txt',
+   *      content: 'aGVsbG8gd29ybGQh',
+   *      encoding: 'base64'
+   *   })
+   *  .send()
+   * ```
+   */
+  public attachment(attachment: Attachment) {
+    this.driver.attachment(attachment)
+
+    return this
+  }
+
+  /**
+   * Set the email content. You can choose between `text`
+   * `html` or `markdown`.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .content('<h1>Hello World!</h1>')
+   *  .send()
+   *
+   * // Or choosing the email content type:
+   *
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .content('# Hello World!', { type: 'markdown' })
+   *  .send()
+   * ```
+   */
+  public content(value: string, options: ContentOptions = {}) {
+    this.driver.content(value, options)
+
+    return this
+  }
+
+  /**
+   * Define mail view to be rendered instead of a raw content.
+   *
+   * @example
+   * ```ts
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .view('mail.welcome', { title: 'Welcome to Athenna!' })
+   *  .send()
+   *
+   * // Or choosing the view content type:
+   *
+   * await Mail.from('support@athenna.io')
+   *  .to('lenon@athenna.io')
+   *  .content('mail.markdown.welcome',
+   *    { title: 'Welcome to Athenna!' },
+   *    { type: 'markdown' }
+   *  )
+   *  .send()
+   * ```
+   */
+  public view(name: string, data: any = {}, options: ContentOptions = {}) {
+    this.driver.view(name, data, options)
 
     return this
   }

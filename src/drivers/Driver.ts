@@ -7,50 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import * as nodemailerMd from 'nodemailer-markdown'
-import SMTPTransport from 'nodemailer/lib/smtp-transport/index.js'
-
-import {
-  createTransport,
-  type Transporter,
-  type SendMailOptions
-} from 'nodemailer'
-
-import { View } from '@athenna/view'
-import { Driver } from '#src/drivers/Driver'
-import { Json, Options } from '@athenna/common'
 import type { ContentOptions } from '#src/types'
-import type { Envelope, Attachment } from 'nodemailer/lib/mailer/index.js'
+import type { Attachment, Envelope } from 'nodemailer/lib/mailer/index.js'
 
-const markdown = nodemailerMd.markdown
-
-export class SmtpDriver extends Driver {
-  /**
-   * The nodemailer transporter.
-   */
-  private transport: Transporter
-
-  /**
-   * The message that will be delivered.
-   */
-  private message: SendMailOptions
-
-  /**
-   * Creates a new instance of Mail.
-   */
-  public constructor(options: SMTPTransport.Options) {
-    super()
-    this.message = {}
-    this.transport = createTransport(options)
-    this.transport.use('compile', markdown())
-  }
-
+export abstract class Driver {
   /**
    * Send a new mail message.
    */
-  public async send(): Promise<any> {
-    return this.transport.sendMail(this.message)
-  }
+  public abstract send(): Promise<any>
 
   /**
    * Define the email that is sending the email.
@@ -60,11 +24,7 @@ export class SmtpDriver extends Driver {
    * await Mail.from('support@athenna.io').send()
    * ```
    */
-  public from(from: string) {
-    this.message.from = from
-
-    return this
-  }
+  public abstract from(from: string): this
 
   /**
    * Define who will receive the email.
@@ -77,11 +37,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public to(...to: string[]) {
-    this.message.to = to
-
-    return this
-  }
+  public abstract to(...to: string[]): this
 
   /**
    * Define the email subject that will appear on the
@@ -95,11 +51,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public subject(subject: string) {
-    this.message.subject = subject
-
-    return this
-  }
+  public abstract subject(subject: string): this
 
   /**
    * Define the emails that will appear on the cc field.
@@ -113,11 +65,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public cc(...cc: string[]) {
-    this.message.cc = cc
-
-    return this
-  }
+  public abstract cc(...cc: string[]): this
 
   /**
    * Define the emails that will appear on the bcc field.
@@ -131,11 +79,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public bcc(...bcc: string[]) {
-    this.message.bcc = bcc
-
-    return this
-  }
+  public abstract bcc(...bcc: string[]): this
 
   /**
    * Define the email that will apear in the reply to field.
@@ -148,11 +92,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public replyTo(replyTo: string) {
-    this.message.replyTo = replyTo
-
-    return this
-  }
+  public abstract replyTo(replyTo: string): this
 
   /**
    * Define the emails that this message is replying to.
@@ -165,11 +105,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public inReplyTo(inReplyTo: string) {
-    this.message.inReplyTo = inReplyTo
-
-    return this
-  }
+  public abstract inReplyTo(inReplyTo: string): this
 
   /**
    * Define mail references.
@@ -182,11 +118,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public references(references: string) {
-    this.message.references = references
-
-    return this
-  }
+  public abstract references(references: string): this
 
   /**
    * The envelope is usually auto generated from `from()`, `to()`,
@@ -207,11 +139,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public envelope(envelope: Envelope) {
-    this.message.envelope = envelope
-
-    return this
-  }
+  public abstract envelope(envelope: Envelope): this
 
   /**
    * Define a date for the email. If not defined, current
@@ -225,11 +153,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public date(value: string | Date) {
-    this.message.date = value
-
-    return this
-  }
+  public abstract date(date: string | Date): this
 
   /**
    * Identifies encoding for `text/html` strings
@@ -244,11 +168,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public encoding(value: 'utf-8' | 'hex' | 'base64') {
-    this.message.encoding = value
-
-    return this
-  }
+  public abstract encoding(encoding: 'utf-8' | 'hex' | 'base64'): this
 
   /**
    * Force content-transfer-encoding for text values (either
@@ -264,11 +184,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public textEncoding(value: 'quoted-printable' | 'base64') {
-    this.message.encoding = value
-
-    return this
-  }
+  public abstract textEncoding(value: 'quoted-printable' | 'base64'): this
 
   /**
    * If `true`, then does not allow to use files as content.
@@ -286,11 +202,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public disableFileAccess(value: boolean) {
-    this.message.disableFileAccess = value
-
-    return this
-  }
+  public abstract disableFileAccess(disableFileAccess: boolean): this
 
   /**
    * If `true`, then does not allow to use Urls as content.
@@ -305,11 +217,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public disableUrlAccess(value: boolean) {
-    this.message.disableUrlAccess = value
-
-    return this
-  }
+  public abstract disableUrlAccess(disableUrlAccess: boolean): this
 
   /**
    * Sets the email importance headers, either `high`,
@@ -323,11 +231,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public priority(value: 'high' | 'normal' | 'low') {
-    this.message.priority = value
-
-    return this
-  }
+  public abstract priority(value: 'high' | 'normal' | 'low'): this
 
   /**
    * Define a header to your email.
@@ -340,15 +244,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public header(key: string, value: any) {
-    if (!this.message.headers) {
-      this.message.headers = {}
-    }
-
-    this.message.headers[key] = value
-
-    return this
-  }
+  public abstract header(key: string, value: any): this
 
   /**
    * Define a header to your email only if it's not already
@@ -362,19 +258,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public safeHeader(key: string, value: any) {
-    if (!this.message.headers) {
-      this.message.headers = {}
-    }
-
-    if (this.message.headers[key]) {
-      return this
-    }
-
-    this.message.headers[key] = value
-
-    return this
-  }
+  public abstract safeHeader(key: string, value: any): this
 
   /**
    * Remove a header from your email.
@@ -387,19 +271,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public removeHeader(key: string) {
-    if (!this.message.headers) {
-      this.message.headers = {}
-    }
-
-    if (!this.message.headers[key]) {
-      return this
-    }
-
-    this.message.headers = Json.omit(this.message.headers as any, [key])
-
-    return this
-  }
+  public abstract removeHeader(key: string): this
 
   /**
    * Set a file as attachment or a file path to be sent in
@@ -430,15 +302,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public attachment(attachment: Attachment) {
-    if (!this.message.attachments) {
-      this.message.attachments = []
-    }
-
-    this.message.attachments.push(attachment)
-
-    return this
-  }
+  public abstract attachment(attachment: Attachment): this
 
   /**
    * Set the email content. You can choose between `text`
@@ -459,13 +323,7 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public content(value: string, options: ContentOptions = {}) {
-    options = Options.create(options, { type: 'html' })
-
-    this.message[options.type] = value
-
-    return this
-  }
+  public abstract content(value: string, options?: ContentOptions): this
 
   /**
    * Define mail view to be rendered instead of a raw content.
@@ -488,17 +346,5 @@ export class SmtpDriver extends Driver {
    *  .send()
    * ```
    */
-  public view(name: string, data: any = {}, options: ContentOptions = {}) {
-    options = Options.create(options, { type: 'html' })
-
-    this.message[options.type] = View.renderSync(name, {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      content: this.message.text || this.message.html || this.message.markdown,
-      ...Json.omit(this.message as any, ['text', 'html', 'markdown']),
-      ...data
-    })
-
-    return this
-  }
+  public abstract view(name: string, data?: any, options?: ContentOptions): this
 }
