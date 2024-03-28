@@ -59,7 +59,7 @@
   "dependencies": {
     "nodemailer": "^6.9.10",
     "nodemailer-markdown": "^1.0.3",
-    "smtp-server": "^3.13.2"
+    "smtp-server": "^3.13.3"
   },
   "devDependencies": {
     "@athenna/artisan": "^4.40.0",
