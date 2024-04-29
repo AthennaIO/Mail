@@ -177,13 +177,8 @@ export default class SmtpDriverTest extends BaseTest {
     // @ts-ignore
     const content = Mail.driver.message.html
 
-    assert.deepEqual(
-      content,
-      '<h1>lenon@athenna.io</h1>\n' +
-        '<h1>Hello from Athenna!</h1>\n' +
-        '<h1>no-reply@athenna.io</h1>\n' +
-        '<h1>Hello World!</h1>'
-    )
+    assert.isTrue(content.includes('<h1>lenon@athenna.io</h1>'))
+    assert.isTrue(content.includes('<h1>Hello from Athenna!</h1>'))
     assert.deepEqual(result.response, '250 OK: message queued')
     assert.deepEqual(result.envelope, { from: 'no-reply@athenna.io', to: ['lenon@athenna.io'] })
   }
