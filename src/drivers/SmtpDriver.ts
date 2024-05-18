@@ -49,6 +49,22 @@ export class SmtpDriver extends Driver {
    * Send a new mail message.
    */
   public async send(): Promise<any> {
+    if (this.message.text) {
+      this.message.text = await Promise.resolve(this.message.text)
+    }
+
+    if (this.message.html) {
+      this.message.html = await Promise.resolve(this.message.html)
+    }
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (this.message.markdown) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.message.markdown = await Promise.resolve(this.message.markdown)
+    }
+
     return this.transport.sendMail(this.message)
   }
 
@@ -491,7 +507,7 @@ export class SmtpDriver extends Driver {
   public view(name: string, data: any = {}, options: ContentOptions = {}) {
     options = Options.create(options, { type: 'html' })
 
-    this.message[options.type] = View.renderSync(name, {
+    this.message[options.type] = View.render(name, {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       content: this.message.text || this.message.html || this.message.markdown,
