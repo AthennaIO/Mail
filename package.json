@@ -1,6 +1,6 @@
 {
   "name": "@athenna/mail",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "The Athenna email handler. Built on top of nodemailer.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
@@ -62,7 +62,7 @@
     "smtp-server": "^3.13.4"
   },
   "devDependencies": {
-    "@athenna/artisan": "^5.0.0",
+    "@athenna/artisan": "^5.1.0",
     "@athenna/common": "^5.0.0",
     "@athenna/config": "^5.0.0",
     "@athenna/ioc": "^5.0.0",
