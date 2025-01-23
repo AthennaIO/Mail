@@ -7,9 +7,10 @@
  * file that was distributed with this source code.
  */
 
+import { Macroable } from '@athenna/common'
 import { SMTPServer, type SMTPServerOptions } from 'smtp-server'
 
-export class SmtpServerImpl {
+export class SmtpServerImpl extends Macroable {
   /**
    * The SMTP server instance.
    */
