@@ -8,12 +8,13 @@
  */
 
 import { Config } from '@athenna/config'
+import { Macroable } from '@athenna/common'
 import type { ContentOptions } from '#src/types'
 import type { Driver } from '#src/drivers/Driver'
 import { DriverFactory } from '#src/factories/DriverFactory'
 import type { Attachment, Envelope } from 'nodemailer/lib/mailer/index.js'
 
-export class MailImpl {
+export class MailImpl extends Macroable {
   /**
    * The mailer name used for this instance.
    */
@@ -33,6 +34,7 @@ export class MailImpl {
    * Creates a new instance of Mail.
    */
   public constructor() {
+    super()
     this.driver = DriverFactory.fabricate(this.mailerName, this.runtimeConfig)
   }
 
